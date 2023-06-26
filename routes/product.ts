@@ -8,7 +8,7 @@ interface Category {
     category: string;
     slug: string;
 }
-  
+
 router.get('/', async (req, res, next) => {
     try {
         const { data, error }: PostgrestResponse<Category> = await supabase
@@ -43,5 +43,28 @@ router.get('/:category', async (req, res, next) => {
     }
 });
 
+router.get('/:category/:productId', async (req, res, next) => {
+    const { category, productId } = req.params;
+    try {
+        let data
+        const { data: productData, error: productError } = await supabase
+            .from(category)
+            .select('*')
+            .eq('uid', productId)
+        if (productError) throw productError;
+        if (productData.length === 0) next({ message: "Product not found", statusCode: 404 })
+        data = productData[0];
+        const { data: vendorProductData, error: vendorProductError } = await supabase
+            .from(`vendor_${category.slice(0, -1)}`)
+            .select('*')
+            .eq('component_id', data.full_name)
+            .range(0, 10)
+        if (vendorProductError) throw vendorProductError;
+        data.vendors = vendorProductData;
+        res.status(200).json(data);
+    } catch (error) {
+        next(error);
+    }
+});
 
 export default router;
