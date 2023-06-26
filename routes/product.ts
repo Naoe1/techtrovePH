@@ -1,19 +1,14 @@
 import express from "express";
 import { supabase } from "../supabase";
-import { PostgrestResponse, PostgrestError } from "@supabase/supabase-js";
-
+import { Category, VideoCard, Processor, Motherboard, Product } from "../utils/types";
 const router = express.Router();
-
-interface Category {
-    category: string;
-    slug: string;
-}
 
 router.get('/', async (req, res, next) => {
     try {
-        const { data, error }: PostgrestResponse<Category> = await supabase
+        const { data, error } = await supabase
             .from('categories')
-            .select('*');
+            .select('*')
+            .returns<Category[]>();
         if (error) {
             throw error;
         }
@@ -35,7 +30,8 @@ router.get('/:category', async (req, res, next) => {
             .from(category)
             .select(columns)
             .order('min_price', { ascending: false, nullsFirst: false })
-            .range(0, 20);
+            .range(0, 20)
+            .returns<Motherboard[] | Processor[] | VideoCard[]>();
         if (error) throw error;
         res.status(200).json(data);
     } catch (error) {
@@ -46,7 +42,7 @@ router.get('/:category', async (req, res, next) => {
 router.get('/:category/:productId', async (req, res, next) => {
     const { category, productId } = req.params;
     try {
-        let data
+        let data: Product;
         const { data: productData, error: productError } = await supabase
             .from(category)
             .select('*')
@@ -58,7 +54,7 @@ router.get('/:category/:productId', async (req, res, next) => {
             .from(`vendor_${category.slice(0, -1)}`)
             .select('*')
             .eq('component_id', data.full_name)
-            .range(0, 10)
+            .range(0, 10);
         if (vendorProductError) throw vendorProductError;
         data.vendors = vendorProductData;
         res.status(200).json(data);
