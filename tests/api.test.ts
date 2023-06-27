@@ -30,5 +30,26 @@ describe('/products route', () => {
 
             spy.mockRestore();
         });
+    }),
+    describe('GET /products/:category/:productId', () => {
+        it('should retrieve a product successfully', async () => {
+            const response = await supertest(app).get('/products/motherboards/c55781d');
+            expect(response.status).toBe(200);
+            expect(response.body).toBeDefined();
+        }),
+        it('should respond with 404 for an invalid product', async () => {
+            const response = await supertest(app).get('/products/motherboards/invalid');
+            expect(response.status).toBe(404);
+        }),
+        test('should respond with status 500 for an error', async () => {
+            const spy = jest.spyOn(supabase, 'from').mockImplementation(() => {
+                throw new Error();
+            });
+            const response = await supertest(app).get('/products/motherboards/c55781d');
+            expect(response.status).toBe(500);
+            spy.mockRestore();
+        })
+        
+        
     })
 })
