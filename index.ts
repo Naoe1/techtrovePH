@@ -24,6 +24,7 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     err.statusCode = err.statusCode || 500;
     console.error(err);
     res.status(err.statusCode).json({
+      status: err.statusCode,
       error: err.message || 'Internal Server Error',
     });
   };
@@ -31,9 +32,4 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
 app.use(errorHandler);
 
-const port = process.env.PORT || 3000;
-
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-})
-
+export default app
