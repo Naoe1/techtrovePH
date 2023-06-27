@@ -1,6 +1,7 @@
 import express from "express";
 import { supabase } from "../supabase";
 import { Category, VideoCard, Processor, Motherboard, Product } from "../utils/types";
+import categoryColumns from "../utils/categoryColumn";
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
@@ -20,11 +21,10 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:category', async (req, res, next) => {
     const category = req.params.category;
-    let columns = '*';
-    if (category === "video_cards") columns = 'full_name,brand,name,uid,model,gpu_spec_ref,gpu_spec(*),boost_clock_mhz,min_price';
-    else if (category === "processors") columns = 'full_name,socket,uid,cores,threads,base_clock_ghz,boost_clock_ghz,integrated_gpu,min_price';
-    else if (category === "motherboards") columns = 'full_name,socket,formfactor,memory_capacity_gb,ram_slots,uid,min_price'
-    else { next({ message: "Invalid category", statusCode: 404 }) }
+    let columns = categoryColumns[category as keyof typeof categoryColumns];
+    if (!columns) {
+        return next({ message: "Invalid category", statusCode: 404 });
+    }
     try {
         const { data, error } = await supabase
             .from(category)
