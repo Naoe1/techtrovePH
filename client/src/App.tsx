@@ -1,9 +1,10 @@
+import Products from "./views/Products"
+
 const App = () => {
   return (
-    <div>
-      <h1>App</h1>
-      Hello world!
-    </div>
+    <>
+      <Products />    
+    </>
   )
 }
 
