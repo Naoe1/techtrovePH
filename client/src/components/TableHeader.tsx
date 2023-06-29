@@ -1,30 +1,24 @@
-const category = 'Motherboards';
+interface TableColumn {
+    label: string;
+    property: string;
+}
 
-const headers = [
-    { label: 'Name' },
-    { label: 'Socket' },
-    { label: 'Cores (Threads)' },
-    { label: 'Integrated Graphics'},
-    { label: 'TDP' },
-    { label: 'Price' },
-];
+const shouldAddLineBreak = (label: string) => label.length > 14 && label.split(' ').length == 2;
 
-const shouldAddLineBreak = (label: string) => {
-    return label.length > 14 && label.split(' ').length == 2;
-};
+const formatCategory = (category: string) =>(category.charAt(0).toUpperCase() + category.slice(1)).replace('_', ' ');
 
-const TableHeader = () => {
+const TableHeader = ({ columns, category }: { columns: TableColumn[], category: string; }) => {
     return (
         <thead className="px-5 py-3 font-bold text-slate-700 text-xs">
             <tr>
                 <th className="">
                     <div className="rounded-t-xl flex items-center px-5 py-3">
-                        <div className="text-base sm:text-lg font-bold text-slate-200">{category}</div>
+                        <div className="text-base sm:text-lg font-bold text-slate-200">{formatCategory(category)}</div>
                     </div>
                 </th>
             </tr>
-            <tr id="specs-header" className="bg-slate-900 text-white">
-                {headers.map((header, index) => (
+            <tr id="specs-header" className="bg-slate-900 text-slate-200">
+                {columns.map((header, index) => (
                     <th key={index}>
                         {shouldAddLineBreak(header.label) ? (
                             <>
