@@ -10,15 +10,13 @@ const tableHeaders = [
 ];
 
 const productsData = [{
-    imgUrl: 'https://d2j6dbq0eux0bg.cloudfront.net/images/47423007/3285804065.jpg',
-    productLink: 'https://www.techmoversph.com/Intel-i5-13600K-p503839633',
     productName: 'AMD Ryzen 6 5600X',
     socket: 'LGA1200',
     baseClock: '3.7GHz',
     boostClock: '5.7GHz',
     integratedGraphics: 'Intel UHD Graphics',
     tdp: '88W',
-    price: '1990',
+    price: 1990,
 }]
 const ProductTable = () => {
     return (

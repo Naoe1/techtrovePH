@@ -8,7 +8,7 @@ interface TableBodyProps<T> {
     columns: TableColumn[];
 }
 
-const TableBody = <T extends { productLink: string, imgUrl: string, productName: string }>({ data, columns }: TableBodyProps<T>) => {
+const TableBody = <T extends { productLink: string, productName: string }>({ data, columns }: TableBodyProps<T>) => {
     return (
         <>
             <tbody className="bg-slate-900">
@@ -19,11 +19,6 @@ const TableBody = <T extends { productLink: string, imgUrl: string, productName:
                                 if (index === 0) {
                                     return (
                                         <td key={index}><div className="flex justify-center">
-                                            <div className="">
-                                                <a href={product.productLink} target="_blank">
-                                                    <img src={product.imgUrl} className="rounded-full object-cover h-16 w-16 border-2 shadow-inner " />
-                                                </a>
-                                            </div>
                                             <div className="text-slate-200 font-bold flex flex-col ps-4 text-sm xl:text-base justify-center sm:justify-center">
                                                 <div>
                                                     {product.productName}
