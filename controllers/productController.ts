@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { supabase } from "../supabase";
 import { Category, VideoCard, Processor, Motherboard, Product } from "../utils/types";
 import categoryColumns from "../utils/categoryColumn";
+import getPagination from '../utils/pagination';
 
 export default class productController {
     public static async getCategories(req: Request, res: Response, next: NextFunction) {
@@ -22,6 +23,8 @@ export default class productController {
     public static async getProducts(req: Request, res: Response, next: NextFunction) {
         const category = req.params.category;
         let columns = categoryColumns[category as keyof typeof categoryColumns];
+        const { page } = req.query;
+        const {from, to} = getPagination(Number(page));
         if (!columns) {
             return next({ message: "Invalid category", statusCode: 404 });
         }
@@ -30,8 +33,9 @@ export default class productController {
                 .from(category)
                 .select(columns)
                 .order('min_price', { ascending: false, nullsFirst: false })
-                .range(0, 20)
+                .range(from, to)
                 .returns<Motherboard[] | Processor[] | VideoCard[]>();
+            if (data?.length === 0) next({ message: "No products found", statusCode: 404 })
             if (error) throw error;
             res.status(200).json(data);
         } catch (error) {
