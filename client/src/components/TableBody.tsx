@@ -41,8 +41,8 @@ const TableBody = <T extends Product>({ data, columns, isLoading }: TableBodyPro
                                 if (header.property === 'min_price') {
                                     return (
                                         <td key={index}>
-                                            <div className="text-xs text-center text-slate-200">
-                                                {product['min_price'].toFixed(2)}
+                                            <div className={`text-xs text-center text-slate-200 ${product['min_price'] ? 'before:content-["₱"]' : null}`}>
+                                                {product['min_price'] ? product['min_price'].toFixed(2) : '-'}
                                             </div>
                                         </td>
                                     )
