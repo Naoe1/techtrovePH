@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 interface Product {
     full_name: string,
     uid: string,
@@ -29,13 +30,13 @@ const TableBody = <T extends Product>({ data, columns, isLoading }: TableBodyPro
                             {columns.map((header, index) => {
                                 if (header.property === 'full_name') {
                                     return (
-                                        <td key={index}><div className="flex justify-center">
-                                            <div className="text-slate-200 font-medium flex flex-col ps-4 text-sm xl:text-base justify-center sm:justify-center">
+                                        <td key={index}><Link to={product.uid}><div className="flex justify-center">
+                                            <div className="text-slate-200 font-medium flex flex-col ps-4 text-sm xl:text-base justify-center sm:justify-center hover:text-sky-400">
                                                 <div>
                                                     {product.full_name}
                                                 </div>
                                             </div>
-                                        </div></td>
+                                        </div></Link></td>
                                     )
                                 }
                                 if (header.property === 'min_price') {
