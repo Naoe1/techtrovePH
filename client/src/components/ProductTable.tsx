@@ -1,9 +1,10 @@
-import {getTableHeaders, isCategory} from "../utils/tableHeaders";
+import { getTableHeaders, isCategory } from "../utils/tableHeaders";
 import TableBody from "./TableBody";
 import TableHeader from "./TableHeader";
 import { useEffect, useState, } from "react";
 import { useParams } from "react-router-dom";
 import Pagination from "./Pagination";
+import { createPortal } from "react-dom";
 
 interface Product {
     full_name: string,
@@ -18,6 +19,26 @@ const ProductTable = () => {
     const [error, setError] = useState<{ statusCode: number; error: string } | null>(null);
     const [tableHeaders, setTableHeaders] = useState<{ label: string; property: string; }[]>([])
     const [page, setPage] = useState<number>(1)
+    const [count, setCount] = useState<number>(0)
+    const [searchTerm, setSearchTerm] = useState<string>('')
+    const fetchData = async () => {
+        try {
+            setIsLoading(true);
+            const response = await fetch(`http://localhost:3000/products/${category}?page=${page}&filter=${searchTerm}`);
+            if (!response.ok) {
+                const errorData = await response.json();
+                setError(errorData)
+                throw new Error("Something went wrong!: " + response.status);
+            }
+            const responseData: { data: Product[], count: number } = await response.json();
+            console.log(responseData)
+            setIsLoading(false);
+            setData(responseData.data);
+            setCount(responseData.count)
+        } catch (error) {
+            setError(error as { statusCode: number; error: string })
+        }
+    };
     useEffect(() => {
         if (category) {
             if (isCategory(category)) {
@@ -25,36 +46,37 @@ const ProductTable = () => {
                 setTableHeaders(columns)
             }
         }
-        const fetchData = async () => {
-            try {
-                setIsLoading(true);
-                const response = await fetch(`http://localhost:3000/products/${category}?page=${page}`);
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    setError(errorData)
-                    throw new Error("Something went wrong!: " + response.status);
-                }
-                const responseData: Product[] = await response.json();
-                console.log(responseData)
-                setIsLoading(false);
-                setData(responseData);
-            } catch (error) {
-                setError(error as { statusCode: number; error: string })
-            }
-        };
         fetchData()
     }, [category, page])
 
     if (error) return <div>Something went wrong ... {error.error}</div>;
 
     return (
-        <div className="flex flex-col min-h-[1000px] bg-slate-900" onClick={() => console.log(error)}>
-            <table className="table-auto order border-separate rounded-t-xl m-0 bg-slate-800" cellSpacing={0}>
-                <TableHeader columns={tableHeaders} category={category ?? ''}/>
-                <TableBody data={data} columns={tableHeaders} isLoading={isLoading} />
-            </table>
-            <Pagination page={page} setPage={setPage}/>
-        </div>
+        <>
+            <div className="border-y border-slate-700 h-16 sticky top-0 bg-slate-900 flex items-center justify-end sm:px-6" id="filters">
+                <form onSubmit={(e) => {
+                    e.preventDefault()
+                    fetchData()
+                }}>
+                    <div className="relative sm:w-96 w-full">
+                        <input onChange={e => setSearchTerm(e.target.value)} type="search" className="block p-2.5 w-full z-20 text-sm rounded-lg border bg-gray-700 outline-none border-gray-600 placeholder-gray-400 text-white" placeholder={`Search for a ${category?.substring(0, category.length - 1)}`} />
+                        <button type="submit" className="absolute top-0 right-0 h-full p-2.5 text-sm font-medium text-white rounded-r-lg border border-blue-700 bg-blue-600">
+                            <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                            </svg>
+                            <span className="sr-only">Search</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div className="flex flex-col min-h-[1000px] bg-slate-900" onClick={() => console.log(error)}>
+                <table className="table-auto order border-separate rounded-t-xl m-0 bg-slate-800" cellSpacing={0}>
+                    <TableHeader columns={tableHeaders} category={category ?? ''} />
+                    <TableBody data={data} columns={tableHeaders} isLoading={isLoading} />
+                </table>
+                <Pagination count={count} page={page} setPage={setPage} />
+            </div>
+        </>
     );
 };
 
