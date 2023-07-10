@@ -24,7 +24,7 @@ export default class productController {
         const category = req.params.category;
         let columns = categoryColumns[category as keyof typeof categoryColumns];
         const { page } = req.query;
-        const {from, to} = getPagination(Number(page));
+        const { from, to } = getPagination(Number(page));
         const filter = req.query.filter ?? '';
         if (!columns) {
             return next({ message: "Invalid category", statusCode: 404 });
@@ -32,17 +32,22 @@ export default class productController {
         try {
             const { data, count, error } = await supabase
                 .from(category)
-                .select(columns, {count: 'exact'})
+                .select(columns, { count: 'exact' })
                 .ilike('full_name', `%${filter}%`)
                 .order('min_price', { ascending: false, nullsFirst: false })
-                .range(from, to)
+                .range(from - 1, to)
                 .returns<Motherboard[] | Processor[] | VideoCard[]>();
+            
+            if (error?.message == 'Requested range not satisfiable') {
+                next({ message: "Page not found", statusCode: 404 })
+                return
+            }
             if (data?.length === 0) {
                 next({ message: "No products found", statusCode: 404 })
                 return
             }
             if (error) throw error;
-            res.status(200).json({data, count});
+            res.status(200).json({ data, count });
         } catch (error) {
             next(error);
         }
