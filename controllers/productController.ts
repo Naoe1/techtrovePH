@@ -19,25 +19,30 @@ export default class productController {
             next(error);
         }
     }
-    
+
     public static async getProducts(req: Request, res: Response, next: NextFunction) {
         const category = req.params.category;
         let columns = categoryColumns[category as keyof typeof categoryColumns];
         const { page } = req.query;
         const {from, to} = getPagination(Number(page));
+        const filter = req.query.filter ?? '';
         if (!columns) {
             return next({ message: "Invalid category", statusCode: 404 });
         }
         try {
-            const { data, error } = await supabase
+            const { data, count, error } = await supabase
                 .from(category)
-                .select(columns)
+                .select(columns, {count: 'exact'})
+                .ilike('full_name', `%${filter}%`)
                 .order('min_price', { ascending: false, nullsFirst: false })
                 .range(from, to)
                 .returns<Motherboard[] | Processor[] | VideoCard[]>();
-            if (data?.length === 0) next({ message: "No products found", statusCode: 404 })
+            if (data?.length === 0) {
+                next({ message: "No products found", statusCode: 404 })
+                return
+            }
             if (error) throw error;
-            res.status(200).json(data);
+            res.status(200).json({data, count});
         } catch (error) {
             next(error);
         }
