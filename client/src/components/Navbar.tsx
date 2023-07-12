@@ -1,6 +1,10 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import Search from "./Search"
+import { ReactComponent as SearchLogo } from "../assets/search.svg"
+import {createPortal} from "react-dom"
 const Navbar = () => {
+    const [isOpen, setIsOpen] = useState(false)
     const [isExpanded, setIsExpanded] = useState(false)
     return (
         <nav id="top-nav" className="z-50 bg-slate-900/40 fixed top-0 left-0 right-0 border-b border-slate-700 b">
@@ -22,9 +26,12 @@ const Navbar = () => {
                                 <Link to="/" className="text-gray-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium">Contact</Link>
                             </div>
                         </div>
-
                     </div>
-                    <div className="sm:hidden">
+                    {createPortal(<Search isOpen={isOpen} setIsOpen={setIsOpen} />, document.body)}
+                    <div className="sm:hidden flex justify-center items-center">
+                        <button onClick={() => setIsOpen(!isOpen)} type="button" className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+                        <SearchLogo className="w-5 h-5 text-slate-400"/>
+                        </button>
                         <button onClick={() => setIsExpanded(!isExpanded)} type="button" className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
                             <span className="sr-only">Open main menu</span>
                             <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path></svg>
