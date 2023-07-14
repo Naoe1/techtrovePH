@@ -7,7 +7,6 @@ const Product = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [error, setError] = useState<{ statusCode: number; error: string } | null>(null);
     const [data, setData] = useState<Motherboard | Processor | VideoCard | null>(null)
-    console.log(data)
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -30,31 +29,7 @@ const Product = () => {
     }, [category, productId])
     if (error) return <div>Something went wrong ... {error.error}</div>;
     if (isLoading || !data) return <div className="min-h-[1220px]">Loading...</div>;
-    const specs = {
-        "brand": "Intel",
-        "line": "Core i5",
-        "model": "13600K",
-        "socket": "1700",
-        "architecture": "Raptor Lake S",
-        "process": "Intel 7",
-        "cores": 14,
-        "threads": 20,
-        "base_clock_ghz": 2.6,
-        "boost_clock_ghz": "5.1",
-        "l2_cache_mb": 20,
-        "l3_cache_mb": 24,
-        "pcie_lanes": "5.0 x16 + 4.0 x4",
-        "integrated_gpu": "UHD 770",
-        "memory_type": "DDR4 / DDR5",
-        "memory_speed_mbps": 5600,
-        "tdp_w": 125,
-        "overclock": "Y",
-        "msrp_usd": "319",
-        "full_name": "Intel Core i5 13600K",
-        "min_price": 18664.75,
-        "id": null,
-        "uid": "c55781d",
-    }
+
     return (
         <>
             <div className="flex flex-col bg-slate-900 text-slate-50 min-h-[820px] w-full">
