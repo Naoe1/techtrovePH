@@ -21,9 +21,34 @@ const tableHeaders = {
         { label: 'Memory Capacity', property: 'memory_capacity_gb' },
         { label: 'Ram Slots', property: 'ram_slots' },
         { label: 'Price', property: 'min_price' },
-    ]
+    ],
+    power_supply: [
+        { label: 'Name', property: 'full_name' },
+        { label: 'From', property: 'vendor_id' },
+        { label: 'Price', property: 'min_price' },
+    ],
+    memory: [
+        { label: 'Name', property: 'full_name' },
+        { label: 'From', property: 'vendor_id' },
+        { label: 'Price', property: 'min_price' },
+    ],
+    cpu_cooler: [
+        { label: 'Name', property: 'full_name' },
+        { label: 'From', property: 'vendor_id' },
+        { label: 'Price', property: 'min_price' },
+    ],
+    chassis: [
+        { label: 'Name', property: 'full_name' },
+        { label: 'From', property: 'vendor_id' },
+        { label: 'Price', property: 'min_price' },
+    ],
+    storage: [
+        { label: 'Name', property: 'full_name' },
+        { label: 'From', property: 'vendor_id' },
+        { label: 'Price', property: 'min_price' },
+    ],
 };
-type Category = 'processors' | 'video_cards' | 'motherboards'
+type Category = 'processors' | 'video_cards' | 'motherboards' | 'power_supply' | 'memory' | 'cpu_cooler' | 'chassis' | 'storage';
 
 const isCategory = (category: string): category is Category => category in tableHeaders;
 
