@@ -3,6 +3,7 @@ import Products from "./views/Products"
 import Home from "./views/Home";
 import Product from './views/Product';
 import Navbar from './components/Navbar';
+import List from './views/List';
 const App = () => {
   return (
     <>
@@ -14,6 +15,7 @@ const App = () => {
             <Route path=":category" element={<Products />} />
             <Route path=":category/:productId" element={<Product />} />
           </Route>
+          <Route path="/list" element={<List/>} />
         </Routes>
       </Router>
     </>
