@@ -51,7 +51,7 @@ const Product = () => {
                                         <a href={vendor.link} target='_blank' className="grid sm:grid-cols-4 grid-cols-3 col-span-3 sm:col-span-4 hover:bg-slate-800 transition-colors">
                                             <div className="sm:col-span-2 py-4 px-2 border-b border-slate-700">{vendor.title}</div>
                                             <div className="py-4 text-xs sm:text-base px-2 border-b border-slate-700">{vendor.vendor_id}</div>
-                                            <div className="py-4 px-2 border-b border-slate-700">{vendor.price}</div>
+                                            <div className="py-4 px-2 border-b border-slate-700">₱{vendor.price.toFixed(2)}</div>
                                         </a>
                                     </React.Fragment>
                                 ))
