@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -31,9 +31,62 @@
     @apply hidden md:table-cell;
   }
   tbody > tr > td:last-child > div {
-    @apply text-sm xl:text-base font-bold text-white sm:px-3 sm:py-10 sm:w-auto;
+    @apply text-sm xl:text-base font-medium text-white sm:px-3 py-4 sm:w-auto;
   }
-  tbody > tr > td:last-child > div:before {
-    content: "₱";
+  tr > th:last-child,
+  tr > td:last-child {
+    @apply table-cell;
+  }
+  tbody > tr {
+    @apply hover:bg-slate-800 transition-colors;
+  }
+  #home-container {
+    background: radial-gradient(
+      ellipse 80% 50% at 60% -20%,
+      rgb(36 54 101 / 95%),
+      rgb(11 17 33) 90%
+    );
+    min-height: 1600px;
+    background-color: #0b1121;
+    @apply px-8 py-12;
+  }
+  #root {
+    background: radial-gradient(
+      ellipse 80% 50% at 60% -20%,
+      rgb(36 54 101 / 95%),
+      rgb(11 17 33) 90%
+    );
+    min-height: 1600px;
+    background-color: #0b1121;
+  }
+  #headline {
+    background: linear-gradient(
+      to left bottom,
+      rgb(255, 255, 255) 30%,
+      rgba(255, 255, 255, 0.5)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  #top-nav {
+    backdrop-filter: blur(8px);
+
+    -webkit-backdrop-filter: blur(8px);
+  }
+  #navbar-hamburger {
+    top: 49px;
+    left: 0;
+    bottom: 11px;
+    position: absolute;
+  }
+  #modal {
+    background-color: rgb(40 40 40 / 20%);
+    backdrop-filter: blur(2px);
+    margin: 0;
+
+  }
+
+  .list-bg {
+    background: linear-gradient(rgb(92 142 215 / 10%), rgb(89 78 78 / 5%));
   }
 }
