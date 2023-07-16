@@ -25,15 +25,18 @@ type Description = {
 
 const TableBody = <T extends Product>({ data, columns, isLoading }: TableBodyProps<T>) => {
     const navigate = useNavigate();
-    const { setProcessor, setMotherboard, setVideoCard, setPowerSupply } = usePCBuilderStore();
+    const { setProcessor, setMotherboard, setVideoCard, setPowerSupply, setChassis, setCooler, setMemory, setStorage} = usePCBuilderStore();
     const { category } = useParams();
     const handleSelect = (category: string, product: Description) => {
         if (category === 'processors') setProcessor(product)
         if (category === 'motherboards') setMotherboard(product)
         if (category === 'video_cards') setVideoCard(product)
         if (category === 'power_supply') setPowerSupply(product)
+        if (category === 'chassis') setChassis(product)
+        if (category === 'coolers') setCooler(product)
+        if (category === 'memory') setMemory(product)
+        if (category === 'storage') setStorage(product)
         navigate('/list')
-
     }
 
     if (isLoading) {
