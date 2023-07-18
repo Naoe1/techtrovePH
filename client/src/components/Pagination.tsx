@@ -1,7 +1,6 @@
-import { Dispatch, SetStateAction } from 'react'
 import { useSearchParams } from 'react-router-dom';
 
-const Pagination = ({ page, setPage, count, setSearchParams }: { page: number, setPage: Dispatch<SetStateAction<number>>, count: number, setSearchParams: ReturnType<typeof useSearchParams>[1] }) => {
+const Pagination = ({ page, count, setSearchParams }: { page: number, count: number, setSearchParams: ReturnType<typeof useSearchParams>[1] }) => {
     const from = page ? (page - 1) * 50 + 1 : 1;
     const to = Math.min(page ? from + 50 - 1 : 50, count as number);
     return (
