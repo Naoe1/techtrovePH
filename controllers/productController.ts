@@ -23,27 +23,31 @@ export default class productController {
     public static async getProducts(req: Request, res: Response, next: NextFunction) {
         const category = req.params.category;
         let columns = categoryColumns[category as keyof typeof categoryColumns];
+        console.log(req.url)
         const { page } = req.query;
         const { from, to } = getPagination(Number(page));
-        const filter = req.query.filter ?? '';
+        const filter = req.query.filter as string ?? '';
+        const filterWords = filter.split(' ')
         if (!columns) {
             return next({ message: "Invalid category", statusCode: 404 });
         }
+
+        const query = supabase
+            .from(category)
+            .select(columns, { count: 'exact' })
+
+        filterWords.forEach(term => {
+            query.ilike('full_name', `%${term}%`);
+        });
+
         try {
-            const { data, count, error } = await supabase
-                .from(category)
-                .select(columns, { count: 'exact' })
-                .ilike('full_name', `%${filter}%`)
+            const { data, count, error } = await query
                 .order('min_price', { ascending: false, nullsFirst: false })
                 .range(from - 1, to)
                 .returns<Motherboard[] | Processor[] | VideoCard[]>();
-            
+
             if (error?.message == 'Requested range not satisfiable') {
-                next({ message: "Page not found", statusCode: 404 })
-                return
-            }
-            if (data?.length === 0) {
-                next({ message: "No products found", statusCode: 404 })
+                next({ message: "The page you're looking for cannot be found.", statusCode: 404 })
                 return
             }
             if (error) throw error;
