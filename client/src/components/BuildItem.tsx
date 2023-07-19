@@ -2,7 +2,7 @@ import { ReactComponent as Trash } from '../assets/trash.svg'
 import { Link } from 'react-router-dom'
 
 interface Props {
-    item: { full_name: string, price: number } | { full_name: string, price: number }[]
+    item: { full_name: string, price: number, product_link: string } | { full_name: string, price: number, product_link: string }[]
     onRemove: (() => void) | ((index: number) => void)
     linkTo: string
     itemName: string
@@ -15,7 +15,7 @@ const Item = ({ item, onRemove, linkTo, itemName }: Props) => {
                 {item.map((desc, index) => (
                     <div key={index} className="mb-3 font-normal text-gray-200 text-sm">
                         <p className="font-bold">{itemName} {index + 1}:</p>
-                        <p className='py-3'>{desc.full_name}</p>
+                        <Link to={desc.product_link} className='py-3'>{desc.full_name}</Link>
                         <p>Price: ₱{desc.price.toFixed(2)}</p>
                         <div onClick={() => onRemove(index)} className='mt-3'>
                             <button type="button" className="flex items-center text-white bg-red-500 h-9 px-6 font-medium rounded text-sm focus:outline-none hover:bg-red-700">Remove</button>
@@ -35,11 +35,11 @@ const Item = ({ item, onRemove, linkTo, itemName }: Props) => {
     }
     return (
         <div className="min-w-sm p-6 shadow">
-            <a href="#">
+            <Link to={item?.product_link}>
                 <h5 className="mb-2 text-lg tracking-tight text-white">
                     {item?.full_name}
                 </h5>
-            </a>
+            </Link>
             <p className="mb-3 font-normal text-gray-200 text-sm">
                 {item && item.price !== null ? (
                     <span>Price: ₱{item.price.toFixed(2)}</span>

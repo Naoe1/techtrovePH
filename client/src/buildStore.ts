@@ -4,6 +4,7 @@ type Description = {
     uid: string;
     full_name: string;
     price: number;
+    product_link: string;
 }
 
 interface PCBuilderState {

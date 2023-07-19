@@ -21,6 +21,7 @@ type Description = {
     uid: string;
     full_name: string;
     price: number;
+    product_link: string,
 }
 
 const TableBody = <T extends Product>({ data, columns, isLoading }: TableBodyProps<T>) => {
@@ -78,7 +79,7 @@ const TableBody = <T extends Product>({ data, columns, isLoading }: TableBodyPro
                                         <td key={index}>
                                             <div className='text-xs text-center flex flex-col text-slate-200 justify-center items-center'>
                                                 <div className={`${product['min_price'] ? 'before:content-["₱"]' : null}`}>{product['min_price'] ? product['min_price'].toFixed(2) : '-'}</div>
-                                                <button onClick={() => handleSelect(category as string, { full_name: product.full_name, uid: product.uid, price: product.min_price })} type="button" className="mt-4 w-20 flex items-center justify-center text-white bg-sky-500 h-6 px-3 py-4 font-medium rounded-md text-xs focus:outline-none hover:bg-sky-700">Select</button>
+                                                <button onClick={() => handleSelect(category as string, { full_name: product.full_name, uid: product.uid, price: product.min_price, product_link: product.link ?? `/products/${category}/${product.uid}` })} type="button" className="mt-4 w-20 flex items-center justify-center text-white bg-sky-500 h-6 px-3 py-4 font-medium rounded-md text-xs focus:outline-none hover:bg-sky-700">Select</button>
                                             </div>
                                         </td>
                                     )
