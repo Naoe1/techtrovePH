@@ -6,7 +6,7 @@ const Products = () => {
         <div className="flex">
             <Aside />
             <div className="flex flex-col grow">
-                <div className="flex h-56 bg-slate-950"></div>
+                <div className="flex h-16 bg-slate-900"></div>
                 <ProductTable/>
             </div>
         </div>
