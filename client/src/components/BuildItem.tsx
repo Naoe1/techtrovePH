@@ -2,7 +2,7 @@ import { ReactComponent as Trash } from '../assets/trash.svg'
 import { Link } from 'react-router-dom'
 
 interface Props {
-    item: { full_name: string, price: number, product_link: string } | { full_name: string, price: number, product_link: string }[]
+    item: { full_name: string, price: number | null, product_link: string } | { full_name: string, price: number | null, product_link: string }[]
     onRemove: (() => void) | ((index: number) => void)
     linkTo: string
     itemName: string
@@ -16,7 +16,7 @@ const Item = ({ item, onRemove, linkTo, itemName }: Props) => {
                     <div key={index} className="mb-3 font-normal text-gray-200 text-sm">
                         <p className="font-bold">{itemName} {index + 1}:</p>
                         <Link to={desc.product_link} className='py-3'>{desc.full_name}</Link>
-                        <p>Price: ₱{desc.price.toFixed(2)}</p>
+                        <p>Price: ₱{desc.price?.toFixed(2)}</p>
                         <div onClick={() => onRemove(index)} className='mt-3'>
                             <button type="button" className="flex items-center text-white bg-red-500 h-9 px-6 font-medium rounded text-sm focus:outline-none hover:bg-red-700">Remove</button>
                         </div>
@@ -42,7 +42,7 @@ const Item = ({ item, onRemove, linkTo, itemName }: Props) => {
             </Link>
             <p className="mb-3 font-normal text-gray-200 text-sm">
                 {item && item.price !== null ? (
-                    <span>Price: ₱{item.price.toFixed(2)}</span>
+                    <span>Price: ₱{item.price.toFixed(2) as number | string}</span>
                 ) : (
                     <span>Price: -</span>
                 )}

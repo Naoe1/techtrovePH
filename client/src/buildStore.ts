@@ -3,7 +3,7 @@ import { create } from 'zustand'
 type Description = {
     uid: string;
     full_name: string;
-    price: number;
+    price: number | null;
     product_link: string;
 }
 
@@ -34,10 +34,12 @@ interface PCBuilderState {
     removeMemory: (index: number) => void;
     removeCooler: () => void;
     removeChassis: () => void;
+
+    getTotalPrice: () => number;
 }
 
 
-const usePCBuilderStore = create<PCBuilderState>((set) => ({
+const usePCBuilderStore = create<PCBuilderState>((set, get) => ({
     processor: null,
     motherboard: null,
     videoCard: null,
@@ -71,6 +73,24 @@ const usePCBuilderStore = create<PCBuilderState>((set) => ({
       })),
     removeCooler: () => set(() => ({ cooler: null })),
     removeChassis: () => set(() => ({ chassis: null })),
+    getTotalPrice: () => {
+        const selectedComponents: Description[] = [
+            get().processor,
+            get().motherboard,
+            get().videoCard,
+            get().powerSupply,
+            ...get().storage,
+            ...get().memory,
+            get().cooler,
+            get().chassis,
+        ].filter((component) => component !== null) as Description[];
+
+        const totalPrice = selectedComponents.reduce(
+            (acc, component) => acc + (component.price || 0),
+            0
+        );
+        return totalPrice;
+    },
 }));
 
 export default usePCBuilderStore;
