@@ -21,11 +21,6 @@ app.use('/searches', searchesRoutes)
 
 app.use('/list', listRoutes)
 
-app.get("/", (req, res) => {
-    res.send("Hellowe world!")
-});
-
-
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     err.statusCode = err.statusCode || 500;
     console.error(err);
