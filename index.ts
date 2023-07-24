@@ -1,6 +1,8 @@
 import express, {ErrorRequestHandler} from "express";
 import bodyParser from "body-parser";
 import productsRoutes from "./routes/product";
+import searchesRoutes from "./routes/search";
+import listRoutes from "./routes/list";
 
 const app = express();
 
@@ -14,6 +16,10 @@ app.use((req, res, next) => {
 });
 
 app.use('/products', productsRoutes);
+
+app.use('/searches', searchesRoutes)
+
+app.use('/list', listRoutes)
 
 app.get("/", (req, res) => {
     res.send("Hellowe world!")
