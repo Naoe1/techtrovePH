@@ -23,7 +23,6 @@ export default class productController {
     public static async getProducts(req: Request, res: Response, next: NextFunction) {
         const category = req.params.category;
         let columns = categoryColumns[category as keyof typeof categoryColumns];
-        console.log(req.url)
         const { page } = req.query;
         const { from, to } = getPagination(Number(page));
         const filter = req.query.filter as string ?? '';
