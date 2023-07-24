@@ -16,7 +16,7 @@ interface PCBuilderState {
     memory: Description[] | [];
     cooler: Description | null;
     chassis: Description | null;
-
+    linkID: string | null;
     setProcessor: (processor: Description) => void;
     setMotherboard: (motherboard: Description) => void;
     setVideoCard: (videoCard: Description) => void;
@@ -36,6 +36,7 @@ interface PCBuilderState {
     removeChassis: () => void;
 
     getTotalPrice: () => number;
+    setLinkID: (linkId: string) => void;
 }
 
 
@@ -48,6 +49,7 @@ const usePCBuilderStore = create<PCBuilderState>((set, get) => ({
     memory: [],
     cooler: null,
     chassis: null,
+    linkID: null,
     setProcessor: (processor: Description) => set(() => ({ processor: processor })),
     setMotherboard: (motherboard: Description) => set(() => ({ motherboard: motherboard })),
     setVideoCard: (videoCard: Description) => set(() => ({ videoCard: videoCard })),
@@ -91,6 +93,7 @@ const usePCBuilderStore = create<PCBuilderState>((set, get) => ({
         );
         return totalPrice;
     },
+    setLinkID: (linkID: string) => set(() => ({ linkID: linkID })),
 }));
 
 export default usePCBuilderStore;
