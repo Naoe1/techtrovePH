@@ -54,9 +54,7 @@ const ListLink = () => {
             setToastMessage('Saved Successfully!')
             setShowToast(true);
             setSubmitting(false)
-            console.log(data);
         } catch (error) {
-            console.error('Error:', error);
             setSubmitting(false)
         }
     };

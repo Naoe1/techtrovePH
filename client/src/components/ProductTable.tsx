@@ -60,7 +60,7 @@ const ProductTable = () => {
 
     if (error && data.length === 0) {
         return (
-            <div onClick={() => console.log(error)}>
+            <div>
                 <div className="flex p-3">
                 <DrawerComponent />
                 </div>
@@ -92,7 +92,7 @@ const ProductTable = () => {
                     </div>
                 </form>
             </div>
-            <div className="flex flex-col min-h-[5469px] bg-slate-900" onClick={() => console.log(error)}>
+            <div className="flex flex-col min-h-[5469px] bg-slate-900">
                 <table className="table-auto order border-separate rounded-t-xl m-0 bg-slate-800" cellSpacing={0}>
                     <TableHeader columns={tableHeaders} category={category ?? ''} />
                     <TableBody data={data} columns={tableHeaders} isLoading={isLoading} />
