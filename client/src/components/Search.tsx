@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import SearchBar from "./SearchBar"
 import { Link } from "react-router-dom"
 
@@ -8,9 +8,16 @@ interface Props {
 }
 
 const Search = ({ isOpen, setIsOpen }: Props) => {
-    const [searchedProducts, setSearchedProducts] = useState<{ full_name: string,  uid: string, link?: string}[] | null>(null)
+    const [searchedProducts, setSearchedProducts] = useState<{ full_name: string, uid: string, link?: string }[] | null>(null)
     const [isLoading, setIsLoading] = useState<boolean | null>(null)
     const [category, setCategory] = useState<string>('processors')
+    useEffect(() => {
+        return () => {
+            setSearchedProducts(null)
+            setIsLoading(null)
+            setCategory('processors')
+        }
+    }, [isOpen])
     return (
         <>
             {isOpen && <div id="modal" className="fixed top-0 left-0 right-0 z-50 w-full p-4 h-full max-h-full" onClick={() => setIsOpen(!isOpen)}>
