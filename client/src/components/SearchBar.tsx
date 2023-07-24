@@ -3,11 +3,16 @@ import { ReactComponent as Processor } from '../assets/processor.svg'
 import { ReactComponent as Motherboard } from '../assets/motherboard.svg'
 import { ReactComponent as VideoCard } from '../assets/videocard.svg'
 import { ReactComponent as Search } from '../assets/search.svg'
+import { ReactComponent as PSU } from '../assets/psu.svg'
+import { ReactComponent as Memory } from '../assets/memory.svg'
+import { ReactComponent as Chassis } from '../assets/chassis.svg'
+import { ReactComponent as Storage } from '../assets/storage.svg'
+import { ReactComponent as Cooler } from '../assets/cooler.svg'
 
 interface Props {
     setSearchedProducts: Dispatch<SetStateAction<{ full_name: string, uid: string }[] | null>>
     setIsLoading: Dispatch<SetStateAction<boolean | null>>
-    category : string
+    category: string
     setCategory: Dispatch<SetStateAction<string>>
 }
 
@@ -19,7 +24,6 @@ const SearchBar = ({ setIsLoading, setSearchedProducts, category, setCategory }:
         setIsLoading(true)
         const response = await fetch(`http://localhost:3000/searches?term=${searchTerm}&category=${category}`);
         const data = await response.json();
-        console.log(data)
         setSearchedProducts(data.result)
         setIsLoading(false)
     }
@@ -27,7 +31,13 @@ const SearchBar = ({ setIsLoading, setSearchedProducts, category, setCategory }:
         { value: 'processors', label: 'Processors', icon: <Processor /> },
         { value: 'motherboards', label: 'Motherboards', icon: <Motherboard /> },
         { value: 'video_cards', label: 'Video Cards', icon: <VideoCard /> },
+        { value: 'power_supply', label: 'Power Supplies', icon: <PSU /> },
+        { value: 'memory', label: 'Memories', icon: <Memory /> },
+        { value: 'chassis', label: 'Chassis', icon: <Chassis /> },
+        { value: 'storage', label: 'Storages', icon: <Storage /> },
+        { value: 'cpu_cooler', label: 'Coolers', icon: <Cooler /> },
     ];
+
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             if (categoryRef.current && !categoryRef.current.contains(e.target as Node)) {
@@ -89,6 +99,7 @@ const SearchBar = ({ setIsLoading, setSearchedProducts, category, setCategory }:
                         onClick={() => {
                             fetchProducts(term, category)
                             setCategoryIsOpen(false)
+                            setSearchedProducts(null)
                         }}
                         type="submit"
                         className="absolute top-0 right-0 p-2.5 text-sm font-medium text-white rounded-r-lg border border-blue-700 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"

@@ -7,8 +7,8 @@ interface Props {
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Search = ({isOpen, setIsOpen}: Props) => {
-    const [searchedProducts, setSearchedProducts] = useState<{ full_name: string, uid: string }[] | null>(null)
+const Search = ({ isOpen, setIsOpen }: Props) => {
+    const [searchedProducts, setSearchedProducts] = useState<{ full_name: string,  uid: string, link?: string}[] | null>(null)
     const [isLoading, setIsLoading] = useState<boolean | null>(null)
     const [category, setCategory] = useState<string>('processors')
     return (
@@ -29,8 +29,8 @@ const Search = ({isOpen, setIsOpen}: Props) => {
                             </p>
                             <div className="flex flex-col">
                                 {searchedProducts?.length === 0 && <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">No products! </p>}
-                                {!isLoading && searchedProducts?.map((product) => (
-                                    <Link to={`/products/${category}/${product.uid}`} className="text-white bg-[#243143] flex items-center h-11 pl-6 my-1 rounded-lg">{product.full_name}</Link>
+                                {!isLoading && searchedProducts?.map((product, index) => (
+                                    <Link key={index} to={product.uid ? `/products/${category}/${product.uid}` : product.link as string} className="text-white bg-[#243143] flex items-center h-11 pl-6 my-1 rounded-lg">{product.full_name}</Link>
                                 ))}
                                 {isLoading &&
                                     [...Array(5)].map((_, i) => {
