@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import Search from "./Search"
 import { ReactComponent as SearchLogo } from "../assets/search.svg"
-import {createPortal} from "react-dom"
+import { createPortal } from "react-dom"
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [isExpanded, setIsExpanded] = useState(false)
@@ -23,14 +23,13 @@ const Navbar = () => {
                                 <Link to="/" className="text-gray-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium">Home</Link>
                                 <Link to="/products/processors" className="text-gray-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium">Products</Link>
                                 <Link to="/list" className="text-gray-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium">Build</Link>
-                                <Link to="/" className="text-gray-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium">Contact</Link>
                             </div>
                         </div>
                     </div>
                     {createPortal(<Search isOpen={isOpen} setIsOpen={setIsOpen} />, document.body)}
                     <div className="sm:hidden flex justify-center items-center">
                         <button onClick={() => setIsOpen(!isOpen)} type="button" className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
-                        <SearchLogo className="w-5 h-5 text-slate-400"/>
+                            <SearchLogo className="w-5 h-5 text-slate-400" />
                         </button>
                         <button onClick={() => setIsExpanded(!isExpanded)} type="button" className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
                             <span className="sr-only">Open main menu</span>
