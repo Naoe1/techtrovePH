@@ -26,7 +26,7 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     console.error(err);
     res.status(err.statusCode).json({
       status: err.statusCode,
-      error: 'Internal Server Error',
+      error: 'Something went wrong',
     });
   };
   
