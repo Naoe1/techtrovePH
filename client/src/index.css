@@ -46,7 +46,7 @@
       rgb(36 54 101 / 95%),
       rgb(11 17 33) 90%
     );
-    min-height: 1600px;
+    min-height: 1000px;
     background-color: #0b1121;
     @apply px-8 py-12;
   }
