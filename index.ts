@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import productsRoutes from "./routes/product";
 import searchesRoutes from "./routes/search";
 import listRoutes from "./routes/list";
+import lastUpdatedRoutes from "./routes/lastUpdated";
 
 const app = express();
 
@@ -20,6 +21,8 @@ app.use('/products', productsRoutes);
 app.use('/searches', searchesRoutes)
 
 app.use('/list', listRoutes)
+
+app.use('/lastUpdated', lastUpdatedRoutes)
 
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     err.statusCode = err.statusCode || 500;
