@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import Search from "./Search"
 import { ReactComponent as SearchLogo } from "../assets/search.svg"
 import { createPortal } from "react-dom"
-import { ReactComponent as Logo } from "../../public/logo.svg"
+import { ReactComponent as Logo } from "../assets/logo.svg"
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [isExpanded, setIsExpanded] = useState(false)
