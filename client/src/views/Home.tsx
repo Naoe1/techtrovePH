@@ -1,10 +1,24 @@
 import Search from "../components/Search"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ReactComponent as SearchLogo } from "../assets/search.svg"
 import { Link } from "react-router-dom"
 
 const Home = () => {
     const [isOpen, setIsOpen] = useState(false)
+    const [lastUpdated, setLastUpdated] = useState("")
+    useEffect(() => {
+        const fetchLastUpdated = async () => {
+            try {
+                const res = await fetch("http://localhost:3000/lastUpdated")
+                const data = await res.json()
+                console.log(data)
+                setLastUpdated(data.result.date_upd)
+            } catch (error) {
+                setLastUpdated("-")
+            }
+        }
+        fetchLastUpdated()
+    }, [])
     return (
         <div id="home-container">
             <div className="mt-16">
@@ -40,6 +54,7 @@ const Home = () => {
                     </button>
                     <Search isOpen={isOpen} setIsOpen={setIsOpen} />
                 </div>
+                <p className="text-center text-white font-bold text-base sm:text-lg mt-6 max-w-4xl mx-auto">Last Updated: {lastUpdated ?? '-'}</p>
             </div>
         </div>
     )
