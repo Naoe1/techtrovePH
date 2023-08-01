@@ -80,7 +80,8 @@ const Build = () => {
         const fetchData = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch(`http://localhost:3000/list/${listId}`);
+                const backendUrl = import.meta.env.BACKEND_URL || 'http://localhost:3000'
+                const response = await fetch(`${backendUrl}/list/${listId}`);
                 if (!response.ok) {
                     const errorData = await response.json();
                     setError(errorData)

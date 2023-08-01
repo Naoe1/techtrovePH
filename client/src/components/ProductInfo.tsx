@@ -13,7 +13,8 @@ const Product = () => {
             try {
                 window.scrollTo(0, 0);
                 setIsLoading(true);
-                const response = await fetch(`http://localhost:3000/products/${category}/${productId}`);
+                const backendUrl = import.meta.env.BACKEND_URL || 'http://localhost:3000'
+                const response = await fetch(`${backendUrl}/products/${category}/${productId}`);
                 if (!response.ok) {
                     const errorData = await response.json();
                     setError(errorData)

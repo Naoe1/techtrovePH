@@ -22,7 +22,8 @@ const SearchBar = ({ setIsLoading, setSearchedProducts, category, setCategory }:
     const categoryRef = useRef<HTMLDivElement>(null);
     const fetchProducts = async (searchTerm: string, category: string) => {
         setIsLoading(true)
-        const response = await fetch(`http://localhost:3000/searches?term=${searchTerm}&category=${category}`);
+        const backendUrl = import.meta.env.BACKEND_URL || 'http://localhost:3000'
+        const response = await fetch(`${backendUrl}/searches?term=${searchTerm}&category=${category}`);
         const data = await response.json();
         setSearchedProducts(data.result)
         setIsLoading(false)
