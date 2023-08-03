@@ -9,7 +9,7 @@ const ListLink = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const backendUrl = import.meta.env.BACKEND_URL || 'http://localhost:3000'
+                const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'
                 const response = await fetch(`${backendUrl}/list`);
                 if (!response.ok) {
                     const errorData = await response.json();
@@ -40,7 +40,7 @@ const ListLink = () => {
         event.preventDefault();
         const listData = { processor, motherboard, powerSupply, storage, videoCard, chassis, memory, cooler, _id: linkID }
         try {
-            const backendUrl = import.meta.env.BACKEND_URL || 'http://localhost:3000'
+            const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'
             setSubmitting(true)
             const response = await fetch(`${backendUrl}/list`, {
                 method: 'POST',

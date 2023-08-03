@@ -8,7 +8,7 @@ const Home = () => {
     const [lastUpdated, setLastUpdated] = useState("")
     useEffect(() => {
         const fetchLastUpdated = async () => {
-            const backendUrl = import.meta.env.BACKEND_URL || 'http://localhost:3000'
+            const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'
             try {
                 const res = await fetch(`${backendUrl}/lastUpdated`)
                 const data = await res.json()
